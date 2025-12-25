@@ -74,11 +74,11 @@ jobs:
             ${EC2_USERNAME}@${EC2_HOST} << 'EOF'
             
             # Navigate to app directory
-            cd basic-express-app-with-cicd-to-test-ec2
+            cd /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
 
             # Fix ownership first (important!)
             echo "Fixing directory ownership..."
-            sudo chown -R $USER:$USER basic-express-app-with-cicd-to-test-ec2
+            sudo chown -R $USER:$USER /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
             
             
             # Backup current version
@@ -92,11 +92,11 @@ jobs:
             
             # Extract new version (this will overwrite existing files)
             echo "Extracting new deployment package..."
-            tar --overwrite -xzf /tmp/deploy.tar.gz -C basic-express-app-with-cicd-to-test-ec2
+            tar --overwrite -xzf /tmp/deploy.tar.gz -C /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
             rm /tmp/deploy.tar.gz
 
             # Fix ownership after extraction
-            sudo chown -R $USER:$USER basic-express-app-with-cicd-to-test-ec2
+            sudo chown -R $USER:$USER /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
             
             
             # Install production dependencies on the server
@@ -171,17 +171,17 @@ jobs:
           ssh -i private_key.pem -o StrictHostKeyChecking=no \
             ${EC2_USERNAME}@${EC2_HOST} << 'EOF'
             
-            cd basic-express-app-with-cicd-to-test-ec2
+            cd /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
 
             # Fix ownership first (important!)
-            sudo chown -R $USER:$USER basic-express-app-with-cicd-to-test-ec2
+            sudo chown -R $USER:$USER /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
             
             # Find latest backup
             latest_backup=$(ls -t backups/backup_*.tar.gz 2>/dev/null | head -1)
             
             if [ -n "$latest_backup" ]; then
               echo "Found backup: $latest_backup"
-              tar -xzf "$latest_backup" -C basic-express-app-with-cicd-to-test-ec2
+              tar -xzf "$latest_backup" -C /home/ubuntu/basic-express-app-with-cicd-to-test-ec2
               npm ci
               pm2 reload ecosystem.config.cjs
               echo "✅ Rolled back to previous version"
