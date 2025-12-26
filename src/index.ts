@@ -26,6 +26,14 @@ app.get("/quote", (req: Request, res: Response) => {
     "Believe you can and you're halfway there. - Theodore Roosevelt"
   ];
   
+  app.get("/info", (req: Request, res: Response) => {
+    return res.json({ 
+      message: "Node.js CI/CD API",
+      version: "1.0.0",
+      timestamp: new Date().toISOString()
+    });
+  });
+
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
   
   return res.json({ quote: randomQuote });
